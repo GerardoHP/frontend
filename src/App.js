@@ -1,63 +1,37 @@
-import React, { useState, useEffect } from "react";
-import BathsFilter from "./components/BathsFilter";
-import TypeFilter from "./components/TypeFilter";
-import Search from "./components/Search";
-import { getLocations, getBaths, getTypes } from "./utils/api";
-import Locations from "./components/bootstrap/Locations";
+import React, { useState } from "react";
+import Locations from "./components/Locations";
+import Form from "./components/Form";
+import 'bootstrap/js/dist/dropdown';
+import Paginator from "./components/Paginator";
 
 function App() {
-  const [locations, setLocations] = useState([]);
-  const [types, setTypes] = useState("");
-  const [baths, setBaths] = useState("");
-  const [search, setSearch] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [bathsOptions, setBathsOptions] = useState(null);
-  const [typesOptions, setTypesOptions] = useState(null);
+  const [selectedBaths, setSelectedBaths] = useState({});
+  const [selectedType, setSelectedType] = useState({});
+  const [filter, setFilter] = useState('');
 
-  useEffect(() => {
-    const loadOptions = async () => {
-        const bathsResponse = await getBaths();
-        const typesResponse = await getTypes();
-        setBathsOptions(bathsResponse.data);
-        setTypesOptions(typesResponse.data);
-    };
-    loadOptions();
-  }, []);
-
-  useEffect(() => {
-      const loadLocations = async () => {
-        setLoading(true);
-        const response = await getLocations({ baths, types });
-        setLocations(response.data);
-        setLoading(false);
-      };
-      loadLocations();
-  }, [baths, types]);
-
-  if (loading || !bathsOptions || !typesOptions) {
-    return (
-      <div className="Loading">
-        <h1>Loading...</h1>
-      </div>
-    );
+  const handleBathChange = (option) => {
+    setSelectedBaths(option);
   }
 
-  let filteredLocations = locations;
-  if (search) {
-    filteredLocations = locations.filter(
-        r => r.address.toLowerCase().includes(search.trim().toLowerCase())
-    );
+  const handleTypeChange = (option) => {
+    setSelectedType(option);
   }
-  filteredLocations = filteredLocations.slice(0, 50);
+
+  const handleFilterChange = (filter) => {
+    setFilter(filter);
+  }
 
   return (
-    <div className="App container-fluid">
-      <div className="Header">
-        <Search search={search} setSearch={setSearch} />
-        <BathsFilter baths={baths} setBaths={setBaths} bathsOptions={bathsOptions} />
-        <TypeFilter types={types} setTypes={setTypes} typesOptions={typesOptions} />
+    <div className="container-fluid">
+      <div className="jumbotron">
+        <h1 className="display-4">Available locations</h1>
+        <p className="lead">Set a text to filter by address and/or select the type of location you are looking for, also the number of baths you are looking for.</p>
       </div>
-      <Locations />
+      <div >
+        <Form bathChanged={handleBathChange} typeChanged={handleTypeChange} filterChanged={handleFilterChange} />
+        <Paginator />
+      </div>
+      <Locations selectedBaths={selectedBaths} selectedType={selectedType} filter={filter} />
     </div>
   );
 }

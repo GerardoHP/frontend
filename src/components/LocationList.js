@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import CardElement from './CardElement';
+import Spinner from './Spinner';
 
 class List extends PureComponent {
 
@@ -8,7 +9,7 @@ class List extends PureComponent {
 
     get = (bath, type) => {
         const { baths, types } = this.props;
-        
+
         console.log(Object.values(this.flyweights).length);
         if (!this.flyweights[`${bath}-${type}`]) {
             this.flyweights[`${bath}-${type}`] = {
@@ -31,7 +32,7 @@ class List extends PureComponent {
                         location = { ...location, bath, type };
                         return (<CardElement key={location.id} {...location} />)
                     }) :
-                    <b>Nothing to display</b>}
+                    <Spinner />}
             </div>
         );
     }
