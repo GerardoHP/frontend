@@ -8,3 +8,4 @@ export function setSetting(setting) {
     return { setting, type: types.SET_SETTING_SUCCESS }
 }
 
+//ToDo: add some settings UI.

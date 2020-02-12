@@ -10,7 +10,7 @@ class List extends PureComponent {
     get = (bath, type) => {
         const { baths, types } = this.props;
 
-        console.log(Object.values(this.flyweights).length);
+        // console.log(Object.values(this.flyweights).length); // Uncomment to see how muchs space the FlyWeight design pattern it is saving in memory
         if (!this.flyweights[`${bath}-${type}`]) {
             this.flyweights[`${bath}-${type}`] = {
                 bath: baths.find(b => b.id === bath),

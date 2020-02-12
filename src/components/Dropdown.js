@@ -11,13 +11,13 @@ const Dropdown = ({ options, onSelected, title, type }) => {
 
     return (
         <div className="dropdown">
-            <button className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a className="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" href="#"  aria-haspopup="true" aria-expanded="false">
                 {selected && selected.name ? selected.name : title}
-            </button>
+            </a>
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                {options.map(opt => <button className="dropdown-item" key={opt.id} on="true" onClick={() => handleSelection(opt, type)} >{opt.name}</button>)}
+                {options.map(opt => <a className="dropdown-item" key={opt.id} on="true" href="#"  onClick={() => handleSelection(opt, type)} >{opt.name}</a>)}
                 <div className="dropdown-divider"></div>
-                <button className="dropdown-item" on="true" onClick={() => handleSelection({}, type)} >Clear</button>
+                <a className="dropdown-item" on="true" href="#" onClick={() => handleSelection({}, type)} >Clear</a>
             </div>
         </div>
     );
