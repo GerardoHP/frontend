@@ -9,7 +9,7 @@ import { bindActionCreators } from 'redux';
 const bathOption = { type: 'bath', title: 'Bath(s)' };
 const typeOption = { type: 'type', title: 'Type' };
 
-const Form = ({ baths, types, typeChanged, bathChanged, filterChanged, setSetting }) => {
+const Form = ({ baths, types, typeChanged, bathChanged, filterChanged, setSetting, currentLocations }) => {
     const options = [
         { ...bathOption, options: baths },
         { ...typeOption, options: types }
@@ -39,13 +39,12 @@ const Form = ({ baths, types, typeChanged, bathChanged, filterChanged, setSettin
 
     return (
         <form>
-            <div className="form-row">
-                <InputText value={value} onChange={handleFilterChange} />
-                <div className="form-group col-md-1">
-                    <Dropdown {...options[0]} onSelected={handleSelect} />
+            <div className="input-group">
+                <div className="custom-input">
+                    <InputText value={value} onChange={handleFilterChange} currentLocations={currentLocations} />
                 </div>
-                <div className="form-group col-md-1">
-                    <Dropdown {...options[1]} onSelected={handleSelect} />
+                <div className="input-group-append">
+                    {options.map(opt => <Dropdown {...opt} onSelected={handleSelect} key={opt.type} />)}
                 </div>
             </div>
         </form>
@@ -55,11 +54,12 @@ const Form = ({ baths, types, typeChanged, bathChanged, filterChanged, setSettin
 Form.propTypes = {
     baths: PropTypes.array.isRequired,
     types: PropTypes.array.isRequired,
+    currentLocations: PropTypes.any.isRequired,
     setSetting: PropTypes.func
 };
 
-const MapStateToProps = ({ baths, types }, { typeChanged, bathChanged }) => {
-    return { baths, types, typeChanged, bathChanged }
+const MapStateToProps = ({ baths, types, settings: { currentLocations } }, { typeChanged, bathChanged }) => {
+    return { baths, types, typeChanged, bathChanged, currentLocations }
 }
 
 const MapActionsToProps = (dispatch) => {
