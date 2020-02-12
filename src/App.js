@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "./App.css";
-import List from "./components/List";
 import BathsFilter from "./components/BathsFilter";
 import TypeFilter from "./components/TypeFilter";
 import Search from "./components/Search";
 import { getLocations, getBaths, getTypes } from "./utils/api";
+import Locations from "./components/bootstrap/Locations";
 
 function App() {
   const [locations, setLocations] = useState([]);
@@ -52,13 +51,13 @@ function App() {
   filteredLocations = filteredLocations.slice(0, 50);
 
   return (
-    <div className="App">
+    <div className="App container-fluid">
       <div className="Header">
         <Search search={search} setSearch={setSearch} />
         <BathsFilter baths={baths} setBaths={setBaths} bathsOptions={bathsOptions} />
         <TypeFilter types={types} setTypes={setTypes} typesOptions={typesOptions} />
       </div>
-      <List locations={filteredLocations} bathsOptions={bathsOptions} typesOptions={typesOptions} />
+      <Locations />
     </div>
   );
 }

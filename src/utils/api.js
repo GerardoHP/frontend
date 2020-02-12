@@ -1,31 +1,19 @@
 import axios from "axios";
 
-export const getBaths = async () => {
-    try {
-        return await axios.get('http://localhost:8001/baths');
-    } catch (error) {
-        console.error(error);
-    }
+export const getBaths = () => {
+    return axios.get('http://localhost:8001/baths');
 }
 
-export const getTypes = async () => {
-    try {
-        return await axios.get('http://localhost:8001/types');
-    } catch (error) {
-        console.error(error);
-    }
+export const getTypes = () => {
+    return axios.get('http://localhost:8001/types');
 }
 
-export const getLocations = async (params) => {
-    try {
-        if (!params.baths) {
-            delete params.baths;
-        }
-        if (!params.types) {
-            delete params.types;
-        }
-        return await axios.get('http://localhost:8001/locations', { params });
-    } catch (error) {
-        console.error(error);
+export const getLocations = (params) => {
+    if (!params.baths) {
+        delete params.baths;
     }
+    if (!params.types) {
+        delete params.types;
+    }
+    return axios.get('http://localhost:8001/locations', { params });
 }
